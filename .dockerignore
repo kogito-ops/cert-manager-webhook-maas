@@ -1,0 +1,15 @@
+.git
+.github
+.gitignore
+*.md
+LICENSE*
+charts/
+testdata/
+.dockerignore
+Makefile
+*.yml
+*.yaml
+\!go.mod
+\!go.sum
+\!*.go
+EOF < /dev/null

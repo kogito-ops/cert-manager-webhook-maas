@@ -1,0 +1,21 @@
+apiVersion: v2
+name: maas-webhook
+version: 1.0.0
+appVersion: "1.0.0"
+kubeVersion: ">= 1.22.0-0"
+description: Allow cert-manager to solve DNS challenges using Canonical MAAS DNS API
+home: https://github.com/kogito-ops/cert-manager-webhook-maas
+icon: https://raw.githubusercontent.com/cert-manager/cert-manager/master/logo/logo-small.png
+keywords:
+  - cert-manager
+  - maas
+  - canonical
+  - kube-lego
+  - letsencrypt
+  - tls
+sources:
+  - https://github.com/kogito-ops/cert-manager-webhook-maas
+maintainers:
+  - name: kogito-ops
+annotations:
+  artifacthub.io/license: Apache-2.0

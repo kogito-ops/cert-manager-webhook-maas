@@ -1,0 +1,6 @@
+{
+  "secretName": "maas-secret",
+  "zoneName": "example.com",
+  "apiUrl": "https://maas.example.com/MAAS",
+  "apiVersion": "2.0"
+}

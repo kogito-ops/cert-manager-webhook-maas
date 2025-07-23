@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "MAAS Webhook Chart Values",
+  "properties": {
+    "groupName": {
+      "type": "string",
+      "title": "API Group Name",
+      "description": "The API group name for the webhook",
+      "default": "acme.maas.io"
+    },
+    "certManager": {
+      "type": "object",
+      "title": "cert-manager Configuration",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "title": "cert-manager Namespace",
+          "default": "cert-manager"
+        },
+        "serviceAccountName": {
+          "type": "string",
+          "title": "cert-manager Service Account",
+          "default": "cert-manager"
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "title": "Container Image Configuration",
+      "properties": {
+        "registry": {
+          "type": "string",
+          "title": "Image Registry",
+          "default": "ghcr.io"
+        },
+        "repository": {
+          "type": "string",
+          "title": "Image Repository",
+          "default": "kogito-ops/cert-manager-webhook-maas"
+        },
+        "tag": {
+          "type": "string",
+          "title": "Image Tag",
+          "default": ""
+        },
+        "pullPolicy": {
+          "type": "string",
+          "title": "Image Pull Policy",
+          "enum": ["Always", "IfNotPresent", "Never"],
+          "default": "IfNotPresent"
+        }
+      }
+    },
+    "service": {
+      "type": "object",
+      "title": "Service Configuration",
+      "properties": {
+        "type": {
+          "type": "string",
+          "title": "Service Type",
+          "enum": ["ClusterIP", "NodePort", "LoadBalancer"],
+          "default": "ClusterIP"
+        },
+        "port": {
+          "type": "integer",
+          "title": "Service Port",
+          "default": 443
+        }
+      }
+    },
+    "secretName": {
+      "type": "array",
+      "title": "Secret Names",
+      "description": "List of secret names containing MAAS API credentials",
+      "items": {
+        "type": "string"
+      },
+      "default": ["maas-secret"]
+    },
+    "resources": {
+      "type": "object",
+      "title": "Resource Limits and Requests"
+    },
+    "nodeSelector": {
+      "type": "object",
+      "title": "Node Selector"
+    },
+    "tolerations": {
+      "type": "array",
+      "title": "Tolerations"
+    },
+    "affinity": {
+      "type": "object",
+      "title": "Affinity Rules"
+    }
+  },
+  "required": ["groupName"]
+}

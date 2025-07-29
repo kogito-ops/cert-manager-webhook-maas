@@ -29,6 +29,9 @@ jobs:
         run: |
           KUBEBUILDER_ASSETS=$(setup-envtest use --bin-dir /tmp/envtest-bins --print path)
           echo "KUBEBUILDER_ASSETS=$KUBEBUILDER_ASSETS" >> $GITHUB_ENV
+          echo "TEST_ASSET_ETCD=$KUBEBUILDER_ASSETS/etcd" >> $GITHUB_ENV
+          echo "TEST_ASSET_KUBE_APISERVER=$KUBEBUILDER_ASSETS/kube-apiserver" >> $GITHUB_ENV
+          echo "TEST_ASSET_KUBECTL=$KUBEBUILDER_ASSETS/kubectl" >> $GITHUB_ENV
 
       - name: Run tests
         run: go test -v ./...

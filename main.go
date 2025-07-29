@@ -189,7 +189,7 @@ func recordName(fqdn, domain string) string {
 }
 
 func createMaasClient(config internal.Config) (*client.Client, error) {
-	return client.GetClient(config.ApiUrl, config.ApiVersion, config.ApiKey)
+	return client.GetClient(config.ApiUrl, config.ApiKey, config.ApiVersion)
 }
 
 func deleteTxtRecord(config internal.Config, ch *v1alpha1.ChallengeRequest) error {

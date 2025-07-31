@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"regexp"
 	"strings"
 
 	extapi "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -121,13 +120,14 @@ func addTxtRecord(config internal.Config, ch *v1alpha1.ChallengeRequest) error {
 		return fmt.Errorf("failed to create MAAS client: %v", err)
 	}
 
-	name := recordName(ch.ResolvedFQDN, config.ZoneName)
-
-	// Create DNS resource record
-	// Use name + domain instead of fqdn to avoid API parameter conflict
+	// Create DNS resource record using FQDN
+	// MAAS API accepts either FQDN or (Name + Domain), we'll use FQDN for simplicity
+	fqdn := ch.ResolvedFQDN
+	// Remove trailing dot if present (MAAS doesn't expect it)
+	fqdn = strings.TrimSuffix(fqdn, ".")
+	
 	params := &entity.DNSResourceRecordParams{
-		Name:   name,
-		Domain: config.ZoneName,  
+		FQDN:   fqdn,
 		RRData: ch.Key,
 		RRType: "TXT",
 		TTL:    120,
@@ -180,16 +180,6 @@ func clientConfig(c *maasDNSProviderSolver, ch *v1alpha1.ChallengeRequest) (inte
 	return config, nil
 }
 
-func recordName(fqdn, domain string) string {
-	r := regexp.MustCompile("(.+)\\." + regexp.QuoteMeta(domain) + "\\.")
-	name := r.FindStringSubmatch(fqdn)
-	if len(name) != 2 {
-		klog.Errorf("splitting domain name %s failed!", fqdn)
-		return ""
-	}
-	return name[1]
-}
-
 func createMaasClient(config internal.Config) (*client.Client, error) {
 	return client.GetClient(config.ApiUrl, config.ApiKey, config.ApiVersion)
 }
@@ -200,6 +190,9 @@ func deleteTxtRecord(config internal.Config, ch *v1alpha1.ChallengeRequest) erro
 		return fmt.Errorf("failed to create MAAS client: %v", err)
 	}
 
+	// Remove trailing dot if present (MAAS doesn't use it)
+	fqdn := strings.TrimSuffix(ch.ResolvedFQDN, ".")
+	
 	// Find the DNS resource record to delete
 	records, err := maasClient.DNSResourceRecords.Get(&entity.DNSResourceRecordsParams{})
 	if err != nil {
@@ -207,7 +200,7 @@ func deleteTxtRecord(config internal.Config, ch *v1alpha1.ChallengeRequest) erro
 	}
 
 	for _, record := range records {
-		if record.FQDN == ch.ResolvedFQDN && record.RRType == "TXT" && record.RRData == ch.Key {
+		if record.FQDN == fqdn && record.RRType == "TXT" && record.RRData == ch.Key {
 			err = maasClient.DNSResourceRecord.Delete(record.ID)
 			if err != nil {
 				return fmt.Errorf("failed to delete TXT record: %v", err)

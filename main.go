@@ -25,7 +25,8 @@ var GroupName = os.Getenv("GROUP_NAME")
 
 func main() {
 	if GroupName == "" {
-		panic("GROUP_NAME must be specified")
+		GroupName = "acme.maas.io"
+		klog.Infof("GROUP_NAME environment variable not set, using default: %s", GroupName)
 	}
 
 	cmd.RunWebhookServer(GroupName,
@@ -123,9 +124,10 @@ func addTxtRecord(config internal.Config, ch *v1alpha1.ChallengeRequest) error {
 	name := recordName(ch.ResolvedFQDN, config.ZoneName)
 
 	// Create DNS resource record
+	// Use name + domain instead of fqdn to avoid API parameter conflict
 	params := &entity.DNSResourceRecordParams{
-		FQDN:   ch.ResolvedFQDN,
 		Name:   name,
+		Domain: config.ZoneName,  
 		RRData: ch.Key,
 		RRType: "TXT",
 		TTL:    120,

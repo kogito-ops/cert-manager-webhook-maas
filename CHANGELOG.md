@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.10] - 2025-07-31
+
+### Fixed
+- Fixed MAAS API parameter conflict when creating DNS records
+- Changed DNS record creation to use name+domain parameters instead of both fqdn and name
+- Added default GROUP_NAME environment variable to prevent panic when not set
+
 ## [1.0.9] - 2025-07-31
 
 ### Changed
@@ -47,5 +54,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Direct kubectl deployment
 - Source code installation
 
+[1.0.10]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.10
 [1.0.9]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.9
 [1.0.0]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.0

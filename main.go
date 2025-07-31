@@ -120,14 +120,30 @@ func addTxtRecord(config internal.Config, ch *v1alpha1.ChallengeRequest) error {
 		return fmt.Errorf("failed to create MAAS client: %v", err)
 	}
 
-	// Create DNS resource record using FQDN
-	// MAAS API accepts either FQDN or (Name + Domain), we'll use FQDN for simplicity
-	fqdn := ch.ResolvedFQDN
-	// Remove trailing dot if present (MAAS doesn't expect it)
-	fqdn = strings.TrimSuffix(fqdn, ".")
+	// Create DNS resource record
+	// For ACME challenges, we need to create TXT records
+	// Extract the record name from the FQDN
+	fqdn := strings.TrimSuffix(ch.ResolvedFQDN, ".")
+	
+	// Split the FQDN to get name and domain parts
+	// The first part is the record name, the rest is the domain
+	var name string
+	var domain string
+	
+	parts := strings.SplitN(fqdn, ".", 2)
+	if len(parts) == 2 {
+		name = parts[0]
+		domain = parts[1]
+	} else {
+		// Fallback to using FQDN if split fails
+		return fmt.Errorf("unable to split FQDN %s into name and domain", fqdn)
+	}
+	
+	klog.Infof("Creating TXT record - Name: %s, Domain: %s, Key: %s", name, domain, ch.Key)
 	
 	params := &entity.DNSResourceRecordParams{
-		FQDN:   fqdn,
+		Name:   name,
+		Domain: domain,
 		RRData: ch.Key,
 		RRType: "TXT",
 		TTL:    120,

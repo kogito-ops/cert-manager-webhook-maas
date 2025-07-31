@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.12] - 2025-07-31
+
+### Fixed
+- Fixed DNS record creation by using name and domain fields separately instead of FQDN
+- Resolved MAAS/BIND "bad name (check-names)" error when creating TXT records
+- Properly split FQDN into name and domain components for MAAS API compatibility
+
 ## [1.0.11] - 2025-07-31
 
 ### Fixed

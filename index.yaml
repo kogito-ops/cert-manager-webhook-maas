@@ -4,6 +4,32 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
+    appVersion: 1.0.10
+    created: "2025-07-31T14:04:08.86840312Z"
+    description: Allow cert-manager to solve DNS challenges using Canonical MAAS DNS
+      API
+    digest: c59f9a02ba396807f006bb1b28ed965111edb55490266baf0e1ee84280941170
+    home: https://github.com/kogito-ops/cert-manager-webhook-maas
+    icon: https://raw.githubusercontent.com/cert-manager/cert-manager/master/logo/logo-small.png
+    keywords:
+    - cert-manager
+    - maas
+    - canonical
+    - kube-lego
+    - letsencrypt
+    - tls
+    kubeVersion: '>= 1.22.0-0'
+    maintainers:
+    - name: kogito-ops
+    name: maas-webhook
+    sources:
+    - https://github.com/kogito-ops/cert-manager-webhook-maas
+    urls:
+    - https://github.com/kogito-ops/cert-manager-webhook-maas/releases/download/maas-webhook-1.0.10/maas-webhook-1.0.10.tgz
+    version: 1.0.10
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
     appVersion: 1.0.9
     created: "2025-07-31T10:44:45.159257421Z"
     description: Allow cert-manager to solve DNS challenges using Canonical MAAS DNS
@@ -27,4 +53,4 @@ entries:
     urls:
     - https://github.com/kogito-ops/cert-manager-webhook-maas/releases/download/maas-webhook-1.0.9/maas-webhook-1.0.9.tgz
     version: 1.0.9
-generated: "2025-07-31T10:44:45.15928913Z"
+generated: "2025-07-31T14:04:08.868416746Z"

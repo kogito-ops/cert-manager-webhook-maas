@@ -16,7 +16,7 @@ image:
   registry: ghcr.io
   repository: kogito-ops/cert-manager-webhook-maas
   # Overrides the image tag whose default is {{ printf "v%s" .Chart.AppVersion }}
-  tag: ""
+  tag: "v1.0.9"
   pullPolicy: IfNotPresent
 
 nameOverride: ""

@@ -20,6 +20,7 @@ RUN CGO_ENABLED=0 GOARCH=$TARGETARCH go build -o webhook -ldflags '-w -extldflag
 FROM alpine:3.20
 LABEL maintainer="kogito-ops"
 LABEL org.opencontainers.image.source="https://github.com/kogito-ops/cert-manager-webhook-maas"
+LABEL org.opencontainers.image.description="cert-manager ACME DNS01 solver webhook for Canonical MAAS"
 
 RUN apk add --no-cache ca-certificates
 

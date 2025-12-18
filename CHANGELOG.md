@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.14] - 2025-12-18
+
+### Fixed
+- Fixed DNS record name extraction for nested subdomains
+- Record name is now computed relative to the configured zone instead of splitting on first dot
+- Example: `_acme-challenge.lb-test.k8s.example.com` with zone `example.com` now yields name `_acme-challenge.lb-test.k8s`
+
+### Changed
+- Zone configuration is now required (no longer optional)
+- Updated markdownlint configuration formatting
+
 ## [1.0.13] - 2025-08-01
 
 ### Changed
@@ -74,6 +85,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Direct kubectl deployment
 - Source code installation
 
+[1.0.14]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.14
+[1.0.13]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.13
+[1.0.12]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.12
+[1.0.11]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.11
 [1.0.10]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.10
 [1.0.9]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.9
 [1.0.0]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.0

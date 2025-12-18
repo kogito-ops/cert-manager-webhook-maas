@@ -122,28 +122,34 @@ func addTxtRecord(config internal.Config, ch *v1alpha1.ChallengeRequest) error {
 
 	// Create DNS resource record
 	// For ACME challenges, we need to create TXT records
-	// Extract the record name from the FQDN
+	// Extract the record name from the FQDN relative to the zone
 	fqdn := strings.TrimSuffix(ch.ResolvedFQDN, ".")
-	
-	// Split the FQDN to get name and domain parts
-	// The first part is the record name, the rest is the domain
-	var name string
-	var domain string
-	
-	parts := strings.SplitN(fqdn, ".", 2)
-	if len(parts) == 2 {
-		name = parts[0]
-		domain = parts[1]
-	} else {
-		// Fallback to using FQDN if split fails
-		return fmt.Errorf("unable to split FQDN %s into name and domain", fqdn)
+
+	// Use the configured zone as the domain
+	zone := config.ZoneName
+	if zone == "" {
+		return fmt.Errorf("zone name not configured")
 	}
-	
-	klog.Infof("Creating TXT record - Name: %s, Domain: %s, Key: %s", name, domain, ch.Key)
-	
+
+	// Extract the record name by removing the zone suffix from the FQDN
+	// For example: _acme-challenge.lb-test.k8s.kogito.corp with zone kogito.corp
+	// should give name: _acme-challenge.lb-test.k8s
+	var name string
+	zoneSuffix := "." + zone
+	if strings.HasSuffix(fqdn, zoneSuffix) {
+		name = strings.TrimSuffix(fqdn, zoneSuffix)
+	} else if fqdn == zone {
+		// Edge case: FQDN equals the zone
+		name = "@"
+	} else {
+		return fmt.Errorf("FQDN %s does not end with zone %s", fqdn, zone)
+	}
+
+	klog.Infof("Creating TXT record - Name: %s, Zone: %s, Key: %s", name, zone, ch.Key)
+
 	params := &entity.DNSResourceRecordParams{
 		Name:   name,
-		Domain: domain,
+		Domain: zone,
 		RRData: ch.Key,
 		RRType: "TXT",
 		TTL:    120,
@@ -208,7 +214,7 @@ func deleteTxtRecord(config internal.Config, ch *v1alpha1.ChallengeRequest) erro
 
 	// Remove trailing dot if present (MAAS doesn't use it)
 	fqdn := strings.TrimSuffix(ch.ResolvedFQDN, ".")
-	
+
 	// Find the DNS resource record to delete
 	records, err := maasClient.DNSResourceRecords.Get(&entity.DNSResourceRecordsParams{})
 	if err != nil {

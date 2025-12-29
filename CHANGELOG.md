@@ -7,8 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.15] - 2025-12-29
+
+### Fixed
+
+- Updated golang.org/x/crypto to v0.45.0 (CVE-2025-47914, CVE-2025-58181)
+- Updated golang.org/x/oauth2 to v0.27.0 (CVE-2025-22868)
+
+### Added
+
+- CI workflow for pull request builds and tests
+- Integration test skip when TEST_ZONE_NAME not set
+
 ### Changed
 
+- Go version updated to 1.24.0
+- Docker build workflow uses go-version-file instead of hardcoded version
 - Added OCI image description label to Dockerfile for GitHub Packages
 
 ## [1.0.14] - 2025-12-18
@@ -91,6 +105,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Direct kubectl deployment
 - Source code installation
 
+[1.0.15]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.15
 [1.0.14]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.14
 [1.0.13]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.13
 [1.0.12]: https://github.com/kogito-ops/cert-manager-webhook-maas/releases/tag/v1.0.12

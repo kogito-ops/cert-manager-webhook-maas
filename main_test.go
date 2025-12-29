@@ -18,6 +18,10 @@ func TestRunsSuite(t *testing.T) {
 	// snippet of valid configuration that should be included on the
 	// ChallengeRequest passed as part of the test cases.
 
+	if zone == "" {
+		t.Skip("TEST_ZONE_NAME not set, skipping integration test")
+	}
+
 	fqdn = GetRandomString(20) + "." + zone + "."
 
 	fixture := dns.NewFixture(&maasDNSProviderSolver{},

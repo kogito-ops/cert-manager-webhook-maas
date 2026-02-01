@@ -1,7 +1,7 @@
 apiVersion: v2
 name: maas-webhook
-version: 1.0.15
-appVersion: "1.0.15"
+version: 1.0.16
+appVersion: "1.0.16"
 kubeVersion: ">= 1.22.0-0"
 description: Allow cert-manager to solve DNS challenges using Canonical MAAS DNS API
 home: https://github.com/kogito-ops/cert-manager-webhook-maas

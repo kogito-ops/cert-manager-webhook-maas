@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Converted markdownlint configuration from YAML to JSONC format
+- Added markdownlint-cli2 configuration for ignore patterns
+- Added `.markdownlintignore` file for excluding third-party and non-markdown files
+
 ## [1.0.15] - 2025-12-29
 
 ### Fixed
